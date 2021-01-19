@@ -4,15 +4,15 @@ export default {
     extends: Doughnut,
     data: () => ({
         chartdata: {
-        labels: ["Concluido" , "Pendente", "Em andamento"],
+        labels: ["Codf" , "Pendente", "Em andamento"],
         datasets: [
-          {
-            label: "Data One",
-            backgroundColor: ["#1ab3f0", "#3ec762", "#a63d4a"], 
-            data: [10, 5, 7]
-          }
+            {
+                label: "Data One",
+                backgroundColor: ["#1ab3f0", "#3ec762", "#a63d4a"], 
+                data: [15, 5, 7]
+            }
         ]
-      },
+    },
      
       options: {
         responsive: true,

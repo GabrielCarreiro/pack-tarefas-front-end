@@ -2,13 +2,12 @@
   "name": "pack-tarefas",
   "version": "0.1.0",
   "private": true,
-  "baseURL": "http://localhost:8080/#/",
   "scripts": {
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test-server": "webpack-dev-server",
     "test": "testcafe chrome  tests --app 'npm run test-server' --app-init-delay 10000",
-    "postinstall": "npm install && npm run build",
+    "postinstall": "npm run build",
     "start": "node server.js"
   },
   "dependencies": {

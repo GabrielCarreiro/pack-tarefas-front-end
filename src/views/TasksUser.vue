@@ -64,9 +64,6 @@
 
 <script>
 import axios from 'axios';
-import ('dotenv').config()
-
-const api = process.env.API_BACKEND;
 
 const toLower = (text) => {
     return text.toString().toLowerCase();
@@ -107,7 +104,7 @@ const searchByName = (items, term) => {
                 status: "Concluido"
             }
             this.loading = true;
-            axios.put(`${api}/tasks/${item.id}`, params);
+            axios.put(`${process.env.VUE_APP_API_VARIABLE}}/tasks/${item.id}`, params);
             this.UpdateTasks()
         },
         UpdateTasksPending(item){
@@ -116,7 +113,7 @@ const searchByName = (items, term) => {
                 status: "Pendente"
             }
             this.loading = true;
-            axios.put(`${api}/tasks/${item.id}`, params);
+            axios.put(`${process.env.VUE_APP_API_VARIABLE}/tasks/${item.id}`, params);
             this.UpdateTasks()
         },
          UpdateTasksProgress (item)  {
@@ -125,13 +122,13 @@ const searchByName = (items, term) => {
                 status: "Em andamento"
             } 
             this.loading = true;
-            axios.put(`${api}/tasks/${item.id}`, params);
+            axios.put(`${process.env.VUE_APP_API_VARIABLE}/tasks/${item.id}`, params);
             this.UpdateTasks()
         }, 
         UpdateAllTasksPending (){
             this.loading = true;
           
-            axios.put(`${api}/tasks/all/pending`, this.selected).then(()=>{
+            axios.put(`${process.env.VUE_APP_API_VARIABLE}/tasks/all/pending`, this.selected).then(()=>{
                 setTimeout(() => {
                     this.UpdateTasks()
                 }, 2000);
@@ -140,7 +137,7 @@ const searchByName = (items, term) => {
         },  UpdateAllTasksProgress (){
             this.loading = true;
           
-            axios.put(`${api}/tasks/all/progress`, this.selected).then(()=>{
+            axios.put(`${process.env.VUE_APP_API_VARIABLE}/tasks/all/progress`, this.selected).then(()=>{
                 setTimeout(() => {
                     this.UpdateTasks()
                 }, 2000);
@@ -150,7 +147,7 @@ const searchByName = (items, term) => {
         UpdateAllTasksCompleted (){
             this.loading = true;
           
-            axios.put(`${api}/tasks/all/completed`, this.selected).then(()=>{
+            axios.put(`${process.env.VUE_APP_API_VARIABLE}/tasks/all/completed`, this.selected).then(()=>{
                 setTimeout(() => {
                     this.UpdateTasks()
                 }, 2000);
@@ -159,12 +156,12 @@ const searchByName = (items, term) => {
         },
         DeleteTaks(item){
             this.loading = true;
-            axios.delete(`${api}/tasks/delete/${item.id}`);
+            axios.delete(`${process.env.VUE_APP_API_VARIABLE}/tasks/delete/${item.id}`);
             this.UpdateTasks()
         },
         DeleteAllTasks(){
             this.loading = true;
-            axios.post(`${api}/tasks/delete/all`, this.selected).then(() =>{
+            axios.post(`${process.env.VUE_APP_API_VARIABLE}/tasks/delete/all`, this.selected).then(() =>{
                 setTimeout(() => {
                     this.UpdateTasks()
                 }, 2000);
@@ -172,7 +169,7 @@ const searchByName = (items, term) => {
         },
         UpdateTasks(){
            setTimeout(() => {
-                axios.get(`${api}/tasks/1`).then(res=>{
+                axios.get(`${process.env.VUE_APP_API_VARIABLE}/tasks/1`).then(res=>{
                     this.loading = false;
                     this.tasks = res.data;
                 })
@@ -180,7 +177,7 @@ const searchByName = (items, term) => {
         } 
     },
     created: function (){
-        axios.get(`${api}/tasks/1`).then(res=>{
+        axios.get(`${process.env.VUE_APP_API_VARIABLE}/tasks/1`).then(res=>{
             this.tasks = res.data;
             console.log(res.data)
         }).catch(function(error){

@@ -67,10 +67,6 @@
 
 <script>
 import axios from 'axios';
-import ('dotenv').config()
-
-const api = process.env.API_BACKEND;
-
 
   export default {
     name: 'DialogCustom',
@@ -98,7 +94,7 @@ const api = process.env.API_BACKEND;
                 "status": this.status,
                 "requester": "Gabriel Carreiro"
             }
-            axios.post(`${api}/tasks`, params).then(res =>{
+            axios.post(`${process.env.VUE_APP_API_VARIABLE}/tasks`, params).then(res =>{
                 console.log(res, 'success')
                 this.second = true;
                 this.task = '',
@@ -117,7 +113,7 @@ const api = process.env.API_BACKEND;
         reload: Function
     },
     created: function(){
-        axios.get(`${api}/users`).then(res => {
+        axios.get(`${process.env.VUE_APP_API_VARIABLE}/users`).then(res => {
             this.users = res.data;
         }).catch(function(error){
             console.log(error)

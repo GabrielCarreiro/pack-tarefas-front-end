@@ -42,9 +42,6 @@ import Chart from '../components/Chart';
 import NewTasks from '../components/NewTasks';
 import axios from 'axios';
 import Vue from 'vue'
-import ('dotenv').config()
-
-const api = process.env.API_BACKEND;
 
 export default {
     name: "TableBasic",
@@ -65,11 +62,10 @@ export default {
         searchAllTasks(){
             this.render = true
             this.loading = true;  
-            axios.get(`${api}/tasks`).then(res => {
-            Vue.set(this.tasks, 'te', res.data)
-            console.log(this.tasks)
-            this.filtersTask()
-            this.render = false
+            axios.get(`${process.env.VUE_APP_API_VARIABLE}/tasks`).then(res => {
+                Vue.set(this.tasks, 'te', res.data)
+                this.filtersTask()
+                this.render = false
             }).catch(function(error){
                 console.log(error)
             })
