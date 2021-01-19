@@ -61,7 +61,8 @@ export default {
     methods: {
         searchAllTasks(){
             this.render = true
-            this.loading = true;  
+            this.loading = true; 
+             console.log(process.env.VUE_APP_API_VARIABLE)
             axios.get(`${process.env.VUE_APP_API_VARIABLE}/tasks`).then(res => {
                 Vue.set(this.tasks, 'te', res.data)
                 this.filtersTask()
