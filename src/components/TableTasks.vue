@@ -30,7 +30,7 @@
                         <img :src="item.photo" />
                     </md-avatar>
                 </md-table-cell>
-                <md-table-cell md-label="Nome" md-sort-by="nome" class="left">
+                <md-table-cell md-label="Nome" md-sort-by="name" class="left">
                     <span class="md-body-2">
                         {{ item.name }}
                     </span>
@@ -49,7 +49,7 @@
                 </md-table-cell>
                 <md-table-cell md-label="Prazo" md-sort-by="prazo">
                     <span class="md-body-2">
-                        {{ item.term }}
+                        {{ item.term.split('-').reverse().join('/') }}
                     </span>
                 </md-table-cell>
                 <md-table-cell md-label="Status" md-sort-by="status" class="left">

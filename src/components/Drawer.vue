@@ -8,7 +8,8 @@
                     v-if="!menuVisible">
                     <md-icon>menu</md-icon>
                 </md-button>
-                <span class="md-title"> Pack Tarefas</span>
+                <span id="title" class="md-title">
+                    <img class="img" src="../assets/icon-pack.png"> Pack Tarefas</span>
             </md-app-toolbar>
             <md-app-drawer :md-active.sync="menuVisible" md-persistent="mini">
                 <md-toolbar class="md-transparent" md-elevation="0">
@@ -78,8 +79,16 @@ export default {
   border: 1px solid rgba(#000, 0.12);
   background-color: red;
 }
-
-// Demo purposes only
+#title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     margin-right: 10px;
+}
+.img{
+    width: 45px;
+    margin-right: 5px;
+}
 .md-drawer {
   width: 200px;
   max-width: calc(100vw - 125px);

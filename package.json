@@ -8,7 +8,8 @@
     "test-server": "webpack-dev-server",
     "test": "testcafe chrome  tests --app 'npm run test-server' --app-init-delay 10000",
     "postinstall": "npm run build",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev" : "vue-cli-service serve"
   },
   "dependencies": {
     "axios": "^0.21.1",

@@ -28,8 +28,8 @@
         <div class="md-layout"> 
             <TableTasks :tasks="this.tasks.te" />
             <div class="chart"> 
-                <span class="md-headline"> Resumo por status</span> <br/><br/>  
-                <Chart class="chat-component" :tasks="this.tasks"/>
+                <div class="md-headline title-chart"> Resumo por status <md-icon>add_task</md-icon> </div>
+                <ChartContainer class="chat-component" :tasks="this.tasks"/>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
 <script>
 
 import TableTasks from '../components/TableTasks';
-import Chart from '../components/Chart';
+import ChartContainer from '../components/ChartContainer';
 import NewTasks from '../components/NewTasks';
 import axios from 'axios';
 import Vue from 'vue'
@@ -62,7 +62,6 @@ export default {
         searchAllTasks(){
             this.render = true
             this.loading = true; 
-             console.log(process.env.VUE_APP_API_VARIABLE)
             axios.get(`${process.env.VUE_APP_API_VARIABLE}/tasks`).then(res => {
                 Vue.set(this.tasks, 'te', res.data)
                 this.filtersTask()
@@ -84,11 +83,11 @@ export default {
                 }
             })  
             this.loading = false;
-        }
+        },
     },      
     components:{
         TableTasks,
-        Chart,
+        ChartContainer,
         NewTasks
     }
 }
@@ -103,6 +102,11 @@ export default {
         width: 32%;
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     
+    }.title-chart{
+        margin-bottom:15px;
+        margin-top: 10px;
+        color:#525252;
+        padding-bottom: 10px;
     }
     .btn-task{
         margin-left: 5px;
