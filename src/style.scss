@@ -1,0 +1,8 @@
+@import "~vue-material/dist/theme/engine"; 
+
+@include md-register-theme("default", (
+    primary: #091b15, 
+    accent: #2789ca 
+));
+ 
+@import "~vue-material/dist/theme/black-green-light.css"; 
