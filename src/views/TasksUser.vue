@@ -2,7 +2,7 @@
     <div>
         <md-progress-spinner v-if="loading" :md-diameter="200" :md-stroke="20" md-mode="indeterminate"></md-progress-spinner>
         <div class="container" v-else>
-            <md-table style="width: 950px;" v-model="tasks" md-card md-fixed-header @md-selected="onSelect">
+            <md-table style="width: 970px;" v-model="tasks" md-card md-fixed-header @md-selected="onSelect">
             <md-table-toolbar>
                 <h1 class="md-display-1 title">Minhas Tarefas</h1>
                 <md-field md-clearable class="md-toolbar-section-end">
@@ -17,7 +17,7 @@
                 <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
 
                 <div class="md-toolbar-section-end">
-                    <md-button class="md-icon-button" @click="DeleteAllTasks">
+                    <md-button class="md-icon-button" @click="alertDeleteAll = true">
                         <md-icon>delete</md-icon>
                     </md-button>
                     <md-button class="md-icon-button" @click="UpdateAllTasksCompleted">
@@ -32,18 +32,18 @@
                 </div>
             </md-table-toolbar>
 
-            <md-table-row style="width: 950px;" id="rows" slot="md-table-row" slot-scope="{ item }" md-selectable="multiple">
+            <md-table-row style="width: 970px;" id="rows" slot="md-table-row" slot-scope="{ item }" md-selectable="multiple">
                 <md-table-cell id="rows" md-sort-by="name" md-label="Ocorrência" class="left">{{ item.task }}</md-table-cell>
                 <md-table-cell id="rows" md-label="Solicitante" md-sort-by="solicitante" class="left">{{ item.requester }}</md-table-cell>
                 <md-table-cell id="rows" md-label="Tipo" md-sort-by="type" class="left">{{ item.type }}</md-table-cell>
                 <md-table-cell id="rows" md-label="Prazo" md-sort-by="prazo" class="left">{{ item.term.split('-').reverse().join('/') }}</md-table-cell>
                 <md-table-cell id="rows" md-label="Status" md-sort-by="status" class="left">{{ item.status }}</md-table-cell>
                 <md-table-cell id="rows" md-label="Ações" md-sort-by="acoes" class="left">
-                    <span v-if="item.status === 'Concluido' ">
-                        <button class="btn-action" @click="UpdateTasksPending(item)">
+                    <span class="center" v-if="item.status === 'Concluido' ">
+                        <button class="btn-action center" @click="UpdateTasksPending(item)">
                             <md-icon>check_circle_outline</md-icon> 
                         </button>
-                        <button class="btn-action" @click="DeleteTaks(item)">
+                        <button class="btn-action" @click="openModalAlertDelete(item)">
                             <md-icon>delete_forever</md-icon>
                         </button>
                     </span>
@@ -52,7 +52,7 @@
                             <md-icon>running_with_errors</md-icon> 
                         </button>
                     </span>
-                    <span v-else>
+                    <span class="center" v-else>
                         <button class="btn-action"  @click="UpdateTasksProgress(item)">
                             <md-icon>panorama_fish_eye</md-icon>
                         </button>
@@ -60,6 +60,20 @@
                 </md-table-cell> 
             </md-table-row>
             </md-table>
+            <md-dialog-confirm
+                :md-active.sync="alertDelete"
+                md-title="Tem certeza que deseja excluir essa tarafa ?"
+                md-confirm-text="Confirmar"
+                md-cancel-text="Cancelar"
+                @md-cancel="onCancel"
+                @md-confirm="DeleteTaks" />
+            <md-dialog-confirm
+                :md-active.sync="alertDeleteAll"
+                md-title="Tem certeza que deseja excluir todas as tarefas selecionadas ?"
+                md-confirm-text="Confirmar"
+                md-cancel-text="Cancelar"
+                @md-cancel="onCancel"
+                @md-confirm="DeleteAllTasks" />
             <InfoCard :key="teste" />
         </div>
     </div>    
@@ -83,10 +97,13 @@ const searchByName = (items, term) => {
   export default {
     name: 'TableMultiple',
     data: () => ({
-      selected: [],
-      tasks: [],
-      loading : false,
-      teste: 0
+        selected: [],
+        tasks: [],
+        loading : false,
+        teste: 0,
+        alertDelete: false,
+        alertDeleteAll: false,
+        item : null
     }),
     methods: {
         onSelect (items) {
@@ -140,15 +157,14 @@ const searchByName = (items, term) => {
                 }, 2000);
             })
             
-        },  UpdateAllTasksProgress (){
+        },UpdateAllTasksProgress (){
             this.loading = true;
           
             axios.put(`${process.env.VUE_APP_API_VARIABLE}/tasks/all/progress`, this.selected).then(()=>{
                 setTimeout(() => {
                     this.UpdateTasks()
                 }, 2000);
-            })
-            
+            })   
         },
         UpdateAllTasksCompleted (){
             this.loading = true;
@@ -158,11 +174,10 @@ const searchByName = (items, term) => {
                     this.UpdateTasks()
                 }, 2000);
             })
-            
         },
-        DeleteTaks(item){
+        DeleteTaks(){
             this.loading = true;
-            axios.delete(`${process.env.VUE_APP_API_VARIABLE}/tasks/delete/${item.id}`);
+            axios.delete(`${process.env.VUE_APP_API_VARIABLE}/tasks/delete/${this.item.id}`);
             this.UpdateTasks()
         },
         DeleteAllTasks(){
@@ -184,6 +199,10 @@ const searchByName = (items, term) => {
         },
         reload(){
             this.teste += 1;
+        },
+        openModalAlertDelete(params){
+            this.item = params
+            this.alertDelete = true
         }
     },
     created: function (){
@@ -214,6 +233,10 @@ const searchByName = (items, term) => {
     }
     #tr{
         background-color:#4d8ffe;
+    }.center{
+        text-align: left;
+        display: flex;
+        justify-content: flex-start;
     }
     .title{
         margin-right: 180px;

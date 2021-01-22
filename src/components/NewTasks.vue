@@ -112,8 +112,8 @@ import axios from 'axios';
     props:{
         reload: Function
     },
-    created: function(){
-        axios.get(`${process.env.VUE_APP_API_VARIABLE}/users`).then(res => {
+    created: async function(){
+       await axios.get(`${process.env.VUE_APP_API_VARIABLE}/users`).then(res => {
             this.users = res.data;
         }).catch(function(error){
             console.log(error)

@@ -83,11 +83,13 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-     margin-right: 10px;
+    margin-right: 10px;
+  
 }
 .img{
     width: 45px;
     margin-right: 5px;
+    margin-bottom: 3px;
 }
 .md-drawer {
   width: 200px;

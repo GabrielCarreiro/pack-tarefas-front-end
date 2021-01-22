@@ -1,22 +1,25 @@
-import { Pie } from 'vue-chartjs';
+import { Bar } from 'vue-chartjs';
 import axios from 'axios';
 
 export default {
-    extends: Pie,
+    extends: Bar,
     data: () => ({
         chartdata: {
             labels: ["Concluido" ,"Em andamento", "Pendente" ],
             datasets: [
-                {
-                    label: 'Data One',
+                {   
                     backgroundColor: ["#1ab3f0", "#3ec762", "#a63d4a"], 
                     data: []
                 }
-            ]
+            ],
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {xAxes: [{gridLines: {drawOnChartArea: false}}],yAxes: [{gridLines: {drawOnChartArea: false},  ticks: {beginAtZero: true}}]},
+            legend: {
+                display: false
+            }
         }
   }),
 

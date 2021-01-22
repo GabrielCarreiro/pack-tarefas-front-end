@@ -1,13 +1,13 @@
 <template>
     <div class="page-container">
-        <md-progress-spinner v-if="render" :md-diameter="400" :md-stroke="90" md-mode="indeterminate"></md-progress-spinner>
+        <md-progress-spinner v-if="render" :md-diameter="400" :md-stroke="70" md-mode="indeterminate"></md-progress-spinner>
         <md-app v-else>
             <md-app-content>
                 <div class="md-layout">
                     <div class="md-layout-item">
                         <md-progress-spinner v-if="this.loading" :md-diameter="40" :md-stroke="10" md-mode="indeterminate"></md-progress-spinner>
                         <span v-else class="md-display-2"> {{this.userTasksPending}} </span> <br/>
-                        <span class="md-headline">Tarefas pedentes</span> 
+                        <span class="md-headline">Tarefas pendentes</span> 
                     </div>                   
                     <div class="md-layout-item">
                         <md-progress-spinner v-if="this.loading" :md-diameter="40" :md-stroke="10" md-mode="indeterminate"></md-progress-spinner>
@@ -29,7 +29,8 @@
             <TableTasks :tasks="this.tasks.te" />
             <div class="chart"> 
                 <div class="md-headline title-chart"> Resumo por status <md-icon>add_task</md-icon> </div>
-                <ChartContainer class="chat-component" :tasks="this.tasks"/>
+                <Doughnut class="chat-component" :tasks="this.tasks"/>
+                <div class="chart-footer">Total de tarefas: {{tasks.te.length}}</div>
             </div>
         </div>
     </div>
@@ -38,7 +39,7 @@
 <script>
 
 import TableTasks from '../components/TableTasks';
-import ChartContainer from '../components/ChartContainer';
+import Doughnut from '../components/Doughnut';
 import NewTasks from '../components/NewTasks';
 import axios from 'axios';
 import Vue from 'vue'
@@ -58,11 +59,11 @@ export default {
     created: function(){
             this.searchAllTasks();
     },
-    methods: {
-        searchAllTasks(){
+     methods: {
+        async searchAllTasks(){
             this.render = true
             this.loading = true; 
-            axios.get(`${process.env.VUE_APP_API_VARIABLE}/tasks`).then(res => {
+            await axios.get(`${process.env.VUE_APP_API_VARIABLE}/tasks`).then(res => {
                 Vue.set(this.tasks, 'te', res.data)
                 this.filtersTask()
                 this.render = false
@@ -87,7 +88,7 @@ export default {
     },      
     components:{
         TableTasks,
-        ChartContainer,
+        Doughnut,
         NewTasks
     }
 }
@@ -99,14 +100,17 @@ export default {
     }
     .chart{
         border: 1px solid  #e0e0e0;
-        width: 32%;
+        width: 30%;
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        
+
     
     }.title-chart{
         margin-bottom:15px;
         margin-top: 10px;
         color:#525252;
         padding-bottom: 10px;
+        padding-left: 15px;
     }
     .btn-task{
         margin-left: 5px;
@@ -118,5 +122,11 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+    }.chart-footer{
+        margin-top: 25px;
+        font-size: 18px;
+        color:#686868;
+        padding-left: 15px;
+        text-align: left;
     }
 </style>

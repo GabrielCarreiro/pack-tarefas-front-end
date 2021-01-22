@@ -1,30 +1,36 @@
 <template>
-    <div id="container">
-        <div  id="title" class="md-title">Resumo minhas tarefas <md-icon>bubble_chart</md-icon> </div> 
-        <div id="chart">
-            <Pie />
+    <div>
+        <md-progress-spinner v-if="loading" :md-diameter="220" :md-stroke="25" md-mode="indeterminate"></md-progress-spinner>
+        <div v-else id="container">
+            <div  id="title" class="md-title">
+                Resumo minhas tarefas <md-icon>bubble_chart</md-icon> 
+            </div> 
+            <div id="chart">
+                <Pie />
+            </div>
+            <div class="info-text">
+                <span class="md-title color"> Descrição </span>
+                <span class="md-subheading color"> Total </span>
+            </div>     
+            <div class="info-text">
+                <span class="md-subheading color"> Total de tarefas </span>
+                <span class="md-subheading color total"> {{total}} </span>
+            </div>
+            <div class="info-text">
+                <span class="md-subheading color"> Tarefas concluidas </span>
+                <span class="md-subheading color total"> {{completed}}</span>
+            </div>    
+            <div class="info-text">
+                <span class="md-subheading color"> Tarefas pendentes </span>
+                <span class="md-subheading color total"> {{pending}}</span>
+            </div>    
+            <div class="info-text">
+                <span class="md-subheading color"> Tarefas em andamento </span>
+                <span class="md-subheading color total"> {{progress}}</span>
+            </div>        
         </div>
-        <div class="info-text">
-            <span class="md-title color"> Descrição</span>
-            <span class="md-subheading color"> Total </span>
-        </div>     
-        <div class="info-text">
-            <span class="md-subheading color"> Total de tarefas</span>
-            <span class="md-subheading color total"> {{total}} </span>
-        </div>
-        <div class="info-text">
-            <span class="md-subheading color"> Tarefas concluidas</span>
-            <span class="md-subheading color total"> {{completed}}</span>
-        </div>    
-        <div class="info-text">
-            <span class="md-subheading color"> Tarefas pendentes</span>
-            <span class="md-subheading color total"> {{pending}}</span>
-        </div>    
-        <div class="info-text">
-            <span class="md-subheading color"> Tarefas em andamento</span>
-            <span class="md-subheading color total"> {{progress}}</span>
-        </div>        
     </div>
+    
 </template>
 
 <script>
@@ -40,11 +46,13 @@ export default {
             completed : 0,
             pending: 0,
             progress: 0,
-            total: 0
+            total: 0,
+            loading: false
         }
     },
     created: function(){
         axios.get(`${process.env.VUE_APP_API_VARIABLE}/tasks/1`).then(res => {
+                this.loading = true
                 Vue.set(this.tasks, 'data', res.data)
                 this.filterTasks()
             }).catch(function(error){
@@ -65,7 +73,9 @@ export default {
                     this.pending += 1;
                 }
             })
-            this.total = this.tasks.data.length
+            this.total = this.tasks.data.length;
+            this.loading =false;
+
         }
     },
     components: {
@@ -79,7 +89,7 @@ export default {
     #container{
         border: 1px solid  #e0e0e0;
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        min-width: 250px;
+        max-width: 260px;
         max-height: 550px;
         margin: 0 auto;
         padding: 10px;
