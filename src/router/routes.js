@@ -1,6 +1,5 @@
 import Tasks from '../views/Tasks.vue';
 import TasksUser from '../views/TasksUser.vue';
-import Contact from '../views/Contact.vue'
 
 const routes = [
     {
@@ -12,10 +11,6 @@ const routes = [
         path: '/tarefas',
         name: 'Tarefas Usuario',
         component: TasksUser 
-    },{
-        path: '/ajuda',
-        name: 'Contato',
-        component: Contact 
     }
   ]
 
